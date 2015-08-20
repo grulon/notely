@@ -21,6 +21,10 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend' ,function($scope
     $scope.notes = notesData;
   });
 
+  self.assignNotes = function(notes) {
+     $scope.notes = notes;
+   };
+
   self.findNoteById = function(noteId) {
     for( var i = 0; i < $scope.notes.length; i++) {
       if ($scope.notes[i].id === noteId) {
@@ -29,15 +33,29 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend' ,function($scope
     }
   };
 
+
   self.cloneNote = function(note) {
     return JSON.parse(JSON.stringify(note));
   };
 
-    $scope.commit = function() {
-      NotesBackend.postNote($scope.note, function(notesData){
-        $scope.notes = notesData;
-      });
+    $scope.buttonText = function() {
+      if($scope.note.id) {
+        return "Update Note";
+      }
+      else {
+        return "Create Note";
+      }
     };
+
+    $scope.commit = function() {
+      if ($scope.note.id) {
+          NotesBackend.putNote($scope.note, self.assignNotes);
+      }
+      else {
+        NotesBackend.postNote($scope.note, self.assignNotes);
+      }
+    };
+
 
     $scope.hasNotes = function() {
       return $scope.notes.length > 0;
@@ -45,7 +63,6 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend' ,function($scope
 
     $scope.loadNote = function(note) {
       $scope.note = self.cloneNote(note);  //was going to use getNoteById function but isn't needed because we know note when we call function
-      
     };
 
 
