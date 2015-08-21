@@ -7,11 +7,17 @@
       >
   </p>
   <p>
-    <textarea
+    <text-angular
       ng-model="note.body_html"
       name="body_html"
       id="note_body_html"
-      focus-on="noteLoaded"></textarea>
+      focus-on="noteLoaded"
+      ta-toolbar="[
+          ['bold', 'italics', 'underline'],
+          ['ul', 'ol', 'indent', 'outdent'],
+          ['html'],
+          ['insertLink']]">
+    </text-angular>
   </p>
   <div class="form-actions">
     <input type="submit" name="commit" value="{{ buttonText() }}" class="btn btn-default">
