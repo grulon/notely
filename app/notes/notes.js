@@ -29,7 +29,7 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend' ,function($scope
   self.findNoteById = function(noteId) {
     for( var i = 0; i < $scope.notes.length; i++) {
       if ($scope.notes[i].id === noteId) {
-        return $scope.notes[i]
+        return $scope.notes[i];
       }
     }
   };
@@ -57,8 +57,17 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend' ,function($scope
       }
     };
 
+    $scope.deleteNote = function() {
+      NotesBackend.deleteNote($scope.note, function(notes, note) {
+          self.assignNotes(notes, note);
+          $scope.clearNote();
+
+      });
+    };
+
     $scope.clearNote = function() {    //on scope and not self cause it is bound to html
       $scope.note = {};
+      $scope.$broadcast('noteCleared');
     };
 
 
@@ -68,6 +77,7 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend' ,function($scope
 
     $scope.loadNote = function(note) {
       $scope.note = self.cloneNote(note);  //was going to use getNoteById function but isn't needed because we know note when we call function
+      $scope.$broadcast('noteLoaded');
     };
 
 
