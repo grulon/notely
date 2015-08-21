@@ -13,7 +13,7 @@ app.service('NotesBackend',['$http',function NotesBackend($http) {
     $http.get(nevernoteBasePath + 'notes?api_key=' + apiKey)
       .success(function(notesData) {
         notes = notesData;
-        callback(notes);
+        callback(notes, {});  //pass empty object cause makes no sense to pass note when you are fetching note
       });
   };
 
@@ -24,7 +24,7 @@ app.service('NotesBackend',['$http',function NotesBackend($http) {
       note: noteData
     }).success(function(newNoteData) {
        notes.unshift(newNoteData.note);  //puts item on beginning of array... push puts it on end $scope.notes is an array
-       callback(notes);
+       callback(notes, newNoteData.note);
     });
   };
 
@@ -36,7 +36,7 @@ app.service('NotesBackend',['$http',function NotesBackend($http) {
       }).success(function(updatedNoteData) {
           // replace note in array
           self.replaceNote(updatedNoteData.note,callback);
-         callback(notes);
+         //callback(notes);  we do this in replaceNote function 
       });
     };
 
@@ -44,7 +44,7 @@ app.service('NotesBackend',['$http',function NotesBackend($http) {
       for (var i = 0; i < notes.length; i++) {
         if (notes[i].id === updatedNoteData.id) {
           notes[i] = updatedNoteData;
-          callback(notes);
+          callback(notes, updatedNoteData);
           return updatedNoteData;
         }
       }

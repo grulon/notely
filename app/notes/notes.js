@@ -21,8 +21,9 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend' ,function($scope
     $scope.notes = notesData;
   });
 
-  self.assignNotes = function(notes) {
-     $scope.notes = notes;
+  self.assignNotes = function(notes,note) {
+     $scope.notes = notes;  //affects sidebar
+     $scope.note = JSON.parse(JSON.stringify(note));   //affects form
    };
 
   self.findNoteById = function(noteId) {
@@ -54,6 +55,10 @@ noteApp.controller('NotesController', ['$scope', 'NotesBackend' ,function($scope
       else {
         NotesBackend.postNote($scope.note, self.assignNotes);
       }
+    };
+
+    $scope.clearNote = function() {    //on scope and not self cause it is bound to html
+      $scope.note = {};
     };
 
 
