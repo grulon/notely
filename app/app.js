@@ -3,6 +3,7 @@
 // Declare app level module which depends on views, and components
 var app = angular.module('notely', [
   'ngRoute',
+  'notely.login',
   'notely.notes',
   'notely.version'
 ]);

@@ -3,6 +3,7 @@
 app.service('NotesBackend',['$http',function NotesBackend($http) {
   var self = this;
   var notes = [];
+  // var apiKey = '';
 
   self.getNotes = function() {
     return notes;
